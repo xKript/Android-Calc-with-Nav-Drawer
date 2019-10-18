@@ -1,4 +1,4 @@
-package com.xcast.calculatornd.ui.send;
+package com.xcast.calculatornd.ui.history;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,19 +14,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.xcast.calculatornd.R;
 
-public class SendFragment extends Fragment
+public class HistoryFragment extends Fragment
 {
 
-    private SendViewModel sendViewModel;
+    private HistoryViewModel toolsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
-        sendViewModel =
-                ViewModelProviders.of(this).get(SendViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_send, container, false);
-        final TextView textView = root.findViewById(R.id.text_send);
-        sendViewModel.getText().observe(this, new Observer<String>()
+        toolsViewModel =
+                ViewModelProviders.of(this).get(HistoryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_history, container, false);
+        final TextView textView = root.findViewById(R.id.text_history);
+        toolsViewModel.getText().observe(this, new Observer<String>()
         {
             @Override
             public void onChanged(@Nullable String s)

@@ -1,18 +1,18 @@
-package com.xcast.calculatornd.ui.tools;
+package com.xcast.calculatornd.ui.history;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ToolsViewModel extends ViewModel
+public class HistoryViewModel extends ViewModel
 {
 
     private MutableLiveData<String> mText;
 
-    public ToolsViewModel()
+    public HistoryViewModel()
     {
         mText = new MutableLiveData<>();
-        mText.setValue("This is tools fragment");
+        mText.setValue("This is history fragment");
     }
 
     public LiveData<String> getText()

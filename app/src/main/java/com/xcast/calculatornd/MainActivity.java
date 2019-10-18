@@ -2,9 +2,6 @@ package com.xcast.calculatornd;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -13,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.xcast.calculatornd.ui.calculator.CalculatorFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -20,30 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.Button;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private TextView result,operation;
-    private final ArrayList<String> trigonometricOps;
-    private static String lastOperation = "";
-    private Button inverse;
-
-    public MainActivity()
-    {
-        this.trigonometricOps = new ArrayList<String>()
-        {{
-            add("sin");
-            add("cos");
-            add("tan");
-        }};
-    }
+    private CalculatorFragment calcFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,50 +34,22 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_calculator, R.id.nav_settings,
+                R.id.nav_history, R.id.nav_about)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        result = findViewById(R.id.result);
-        operation = findViewById(R.id.operation);
+        getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
 
-        Button clean = findViewById(R.id.button_clean);
-        inverse = findViewById(R.id.buttonInverse);
-
-        clean.setOnClickListener(new View.OnClickListener()
-        {
-            @Override public void onClick(View v)
-            {
-                CharSequence text = operation.getText();
-                if(text==null || text.toString().isEmpty()) {return;}
-                String oldTxt = text.toString();
-                String newTxt = oldTxt.substring(0,oldTxt.length()-1);
-                operation.setText(newTxt);
-                result.setText(MathEvaluator.evaluate(newTxt));
-            }
-        });
-
-        clean.setOnLongClickListener(new View.OnLongClickListener()
-        {
-            @Override
-            public boolean onLongClick(View view)
-            {
-                result.setText("");
-                operation.setText("");
-                return true;
-            }
-        });
-
+        //calcFragment = (CalculatorFragment) getSupportFragmentManager().findFragmentById(R.id.nav_calculator);
     }
 
     @Override
@@ -117,31 +70,16 @@ public class MainActivity extends AppCompatActivity
 
     public void buttonClick(View view)
     {
-        Button source = (Button)view;
-        String key = source.getText().toString();
-        String oldText = getOperation();
-        String newOperation = oldText+key;
-        String parenthesis = (trigonometricOps.contains(key))?"(":"";
-        operation.setText(newOperation+parenthesis);
-        result.setText(MathEvaluator.evaluate(newOperation));
+        calcFragment.buttonClick(view);
     }
 
-    public void invertNumber(View v)
+    public void invertNumber(View view)
     {
-        String o = getOperation();
-        if(o.isEmpty()) {return;}
-        String newOp = "1/("+o+")";
-        String r = MathEvaluator.evaluate(newOp);
-        if(!r.isEmpty())
-        {
-            result.setText(r);
-            operation.setText(newOp);
-        }
+        calcFragment.invertNumber(view);
     }
 
-    private String getOperation()
+    public void setCalcFragment(CalculatorFragment calcFragment)
     {
-        CharSequence curOperation = operation.getText();
-        return (curOperation!=null)?curOperation.toString():"";
+        this.calcFragment = calcFragment;
     }
 }

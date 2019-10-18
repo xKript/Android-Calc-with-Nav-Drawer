@@ -2,6 +2,7 @@ package com.xcast.calculatornd.ui.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.xcast.calculatornd.MainActivity;
 import com.xcast.calculatornd.MathEvaluator;
 import com.xcast.calculatornd.R;
+import com.xcast.calculatornd.ui.calculator.CalculatorFragment;
 
 public class SettingsFragment extends Fragment
 {
@@ -58,14 +60,26 @@ public class SettingsFragment extends Fragment
                 if(precision>=0 && precision<=24)
                 {
                     MathEvaluator.setPrecision(precision);
-                    Toast.makeText(SettingsActivity.this,R.string.settings_applied,Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    Handler mHandler = new Handler();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),R.string.settings_applied,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    Intent intent = new Intent(getContext(), CalculatorFragment.class);
                     intent.putExtra("SOURCE","SETTINGS");
                     startActivity(intent);
                 }
                 else
                 {
-                    Toast.makeText(SettingsActivity.this,R.string.precision_out_range,Toast.LENGTH_SHORT).show();
+                    Handler mHandler = new Handler();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),R.string.precision_out_range,Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
