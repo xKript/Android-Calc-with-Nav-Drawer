@@ -1,20 +1,16 @@
 package com.xcast.calculatornd.ui.calculator;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.xcast.calculatornd.MainActivity;
 import com.xcast.calculatornd.MathEvaluator;
@@ -29,6 +25,7 @@ public class CalculatorFragment extends Fragment
     private final ArrayList<String> trigonometricOps;
     private static String lastOperation = "";
     private Button inverse;
+    private SharedPreferences sharedPref;
 
     public CalculatorFragment()
     {
@@ -85,6 +82,8 @@ public class CalculatorFragment extends Fragment
             }
         });
 
+        sharedPref = getContext().getSharedPreferences(
+                getString(R.string.history_file), Context.MODE_PRIVATE);
         return root;
     }
 
@@ -96,7 +95,19 @@ public class CalculatorFragment extends Fragment
         String newOperation = oldText+key;
         String parenthesis = (trigonometricOps.contains(key))?"(":"";
         operation.setText(newOperation+parenthesis);
-        result.setText(MathEvaluator.evaluate(newOperation));
+        String expressionResult = MathEvaluator.evaluate(newOperation);
+        result.setText(expressionResult);
+
+        try {Double.parseDouble(newOperation);}
+        catch (NumberFormatException e)
+        {
+            try
+            {
+                Double resultN = Double.parseDouble(expressionResult);
+                addToHistory(expressionResult);
+            }
+            catch (NumberFormatException nfe) {}
+        }
     }
 
     public void invertNumber(View v)
@@ -118,5 +129,12 @@ public class CalculatorFragment extends Fragment
         return (curOperation!=null)?curOperation.toString():"";
     }
 
-
+    private void addToHistory(String text)
+    {
+        if(text.isEmpty()) {return;}
+        SharedPreferences.Editor prefsEditor = sharedPref.edit();
+        prefsEditor.putString(""+(sharedPref.getAll().size()+1),
+                text);
+        prefsEditor.apply();
+    }
 }

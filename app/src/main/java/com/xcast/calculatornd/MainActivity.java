@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
 
         getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-
-        //calcFragment = (CalculatorFragment) getSupportFragmentManager().findFragmentById(R.id.nav_calculator);
     }
 
     @Override
