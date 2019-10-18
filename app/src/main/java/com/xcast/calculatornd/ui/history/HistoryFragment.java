@@ -47,9 +47,7 @@ public class HistoryFragment extends Fragment
         {
             history += str.toString()+"\n";
         }
-
         textView.setText(history);
-
         return root;
     }
 }
