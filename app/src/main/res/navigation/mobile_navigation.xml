@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.xcast.calculatornd.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:name="com.xcast.calculatornd.ui.calculator.CalculatorFragment"
+        android:label="@string/menu_calculator"
+        tools:layout="@layout/fragment_calculator" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.xcast.calculatornd.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.xcast.calculatornd.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.xcast.calculatornd.ui.share.ShareFragment"
+        android:name="com.xcast.calculatornd.ui.about.AboutFragment"
         android:label="@string/menu_share"
         tools:layout="@layout/fragment_share" />
 
