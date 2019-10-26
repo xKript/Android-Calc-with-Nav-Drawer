@@ -104,7 +104,7 @@ public class CalculatorFragment extends Fragment
             try
             {
                 Double resultN = Double.parseDouble(expressionResult);
-                addToHistory(expressionResult);
+                addToHistory(newOperation+" = "+expressionResult);
             }
             catch (NumberFormatException nfe) {}
         }
